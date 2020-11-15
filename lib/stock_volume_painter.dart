@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_chart/bar.dart';
+import 'package:flutter_chart/data/bar.dart';
 import 'package:flutter_chart/data/symbol_information.dart';
 
 class StockVolumePainter extends CustomPainter {
