@@ -20,3 +20,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/stock_data/query_daily.json
+    - assets/stock_data/query_weekly.json
+    - assets/stock_data/query_monthly.json
