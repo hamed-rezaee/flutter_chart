@@ -45,6 +45,22 @@ class SymbolInformation {
     return informations;
   }
 
+  static double getHighestValue(List<SymbolInformation> symbolInformations) =>
+      symbolInformations
+          .fold(
+              symbolInformations.first,
+              (SymbolInformation previous, SymbolInformation current) =>
+                  current.high > previous.high ? current : previous)
+          .high;
+
+  static double getLowestValue(List<SymbolInformation> symbolInformations) =>
+      symbolInformations
+          .fold(
+              symbolInformations.first,
+              (SymbolInformation previous, SymbolInformation current) =>
+                  current.low < previous.low ? current : previous)
+          .low;
+
   static int getMaxValume(List<SymbolInformation> symbolInformations) =>
       symbolInformations
           .fold(

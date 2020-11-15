@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chart/candlestick_painter.dart';
 
 import 'package:flutter_chart/data/symbol_information.dart';
 import 'package:flutter_chart/stock_volume_painter.dart';
@@ -10,7 +11,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.blueGrey,
         ),
         home: const HomePage(title: 'Flutter Chart Home Page'),
       );
@@ -32,33 +33,54 @@ class _HomePageState extends State<HomePage> {
           elevation: 0,
           title: Text(widget.title),
         ),
-        body: Column(
-          children: <Widget>[
-            Container(
-              height: 160,
-              color: Colors.black,
-            ),
-            const SizedBox(height: 6),
-            Container(
-              height: 45,
-              color: Colors.black,
-              child: FutureBuilder<List<SymbolInformation>>(
-                future: SymbolInformation.getInformationFromAsset(
-                  context: context,
-                  fileName: 'query_daily.json',
-                ),
-                initialData: const <SymbolInformation>[],
-                builder: (
-                  BuildContext context,
-                  AsyncSnapshot<List<SymbolInformation>> snapshot,
-                ) =>
-                    CustomPaint(
-                  size: Size.infinite,
-                  painter: StockVolumePainter(symbolInformations: snapshot.data),
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.all(16),
+                height: 320,
+                child: FutureBuilder<List<SymbolInformation>>(
+                  future: SymbolInformation.getInformationFromAsset(
+                    context: context,
+                    fileName: 'query_daily.json',
+                  ),
+                  initialData: const <SymbolInformation>[],
+                  builder: (
+                    BuildContext context,
+                    AsyncSnapshot<List<SymbolInformation>> snapshot,
+                  ) =>
+                      CustomPaint(
+                    size: Size.infinite,
+                    painter: CandlestickPainter(
+                      symbolInformations: snapshot.data,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 6),
+              Container(
+                padding: const EdgeInsets.all(16),
+                height: 90,
+                child: FutureBuilder<List<SymbolInformation>>(
+                  future: SymbolInformation.getInformationFromAsset(
+                    context: context,
+                    fileName: 'query_daily.json',
+                  ),
+                  initialData: const <SymbolInformation>[],
+                  builder: (
+                    BuildContext context,
+                    AsyncSnapshot<List<SymbolInformation>> snapshot,
+                  ) =>
+                      CustomPaint(
+                    size: Size.infinite,
+                    painter: StockVolumePainter(
+                      symbolInformations: snapshot.data,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       );
 }
